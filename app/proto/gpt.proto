@@ -1,0 +1,14 @@
+// Filename: gpt.proto
+syntax="proto2";
+package gpt_starter;
+
+message GPTResponse {
+    optional string reply = 1;
+    optional string prompt = 2;
+    optional uint64 token_count = 3;
+}
+
+message GPTRequest {
+    optional string query = 1;
+}
+ 

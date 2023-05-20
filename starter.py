@@ -23,7 +23,7 @@ app = create_app(
 )
 
 
-if app.config.get("ENV") != "production":
+if app.config.get("ENV") != "":
 
     @app.route("/")
     def slogan():

@@ -70,3 +70,6 @@ class BaseConfig(object):
 
     # 兼容中文
     JSON_AS_ASCII = False
+
+    # API key 配置
+    OPENAI_KEY = "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"

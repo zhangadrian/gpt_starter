@@ -1,16 +1,58 @@
 version: "3"
 services:
-    lin-cms-flask:
+    app:
+      image: gpt_starter:0.1 
+      container_name: gpt_starter_app
       build:
           context: .
           dockerfile: ./Dockerfile
-      container_name: lin_cms_flask
       restart: always
       hostname: avatar
       environment:
-            - TZ=Asia/Shanghai
+          TZ: Asia/Shanghai
+          MYSQL_HOST: db 
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: 123456
+          MYSQL_DATABASE: gpt_starter
       ports:
-          - "5000:5000"
+          - "8001:8001"
       working_dir: /app
       tty: true
       command: ["sh", "docker-deploy.sh"]
+    db:
+        image: mysql:latest
+        container_name: gpt_starter_db
+        restart: always
+        ports:
+          - "3307:3306"
+        environment:
+          MYSQL_ROOT_PASSWORD: 123456
+          MYSQL_DATABASE: gpt_starter
+        volumes:
+          - ./db_data:/docker-entrypoint-initdb.d/:ro
+    redis:
+      # 镜像名称以及版本号
+      image: 'redis:6.0'
+      # 失败后总是重启
+      restart: always
+      # 自定义容器名
+      container_name: docker_redis
+      # 文件夹以及文件映射
+      volumes:
+        - /home/lighthouse/bowen/codes/redis/datadir:/data
+        # 注意这里需要先  /usr/local/app/redis/conf  新建redis.conf文件  redis.conf文件可从http://www.redis.cn/下载
+        - /home/lighthouse/bowen/codes/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+        - /home/lighthouse/bowen/codes/redis/logs:/logs
+      command:
+        # 以配置文件的方式启动 redis.conf
+        redis-server /usr/local/etc/redis/redis.conf
+      ports:
+        # 端口号
+        - '6379:6379'
+
+
+
+volumes:
+  app:
+  db:
+  redis:

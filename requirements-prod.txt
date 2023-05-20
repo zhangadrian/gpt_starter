@@ -8,3 +8,10 @@ blinker==1.4
 python-dotenv==0.19.2
 gevent-websocket==0.10.1
 Werkzeug==2.1.2
+pymysql
+cryptography
+langchain
+protobuf
+redis
+openai
+azure-core

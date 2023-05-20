@@ -5,7 +5,7 @@ from gevent import monkey
 monkey.patch_all()
 
 
-bind = "0.0.0.0:5000"
+bind = "0.0.0.0:8001"
 worker_class = "geventwebsocket.gunicorn.workers.GeventWebSocketWorker"
 daemon = False
 workers = multiprocessing.cpu_count() * 2 + 1

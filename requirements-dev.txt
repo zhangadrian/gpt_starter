@@ -18,3 +18,11 @@ pytest-ordering==0.6
 flake8==4.0.1
 mypy==0.950
 Werkzeug==2.1.2
+pymysql
+cryptography
+langchain
+protobuf
+protobuf
+redis
+openai
+azure-core

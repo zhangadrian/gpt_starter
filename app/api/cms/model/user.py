@@ -1,9 +1,16 @@
 from lin import User as LinUser
 from lin import db, manager
-from sqlalchemy import func
+from sqlalchemy import (
+    Column,
+    String,
+    func,
+)
 
 
 class User(LinUser):
+
+    phone = Column(String(20), comment="电话")
+
     def _set_fields(self):
         self._exclude = ["delete_time", "create_time", "is_deleted", "update_time"]
 
@@ -16,6 +23,12 @@ class User(LinUser):
     @classmethod
     def count_by_email(cls, email) -> int:
         result = db.session.query(func.count(cls.id)).filter(cls.email == email, cls.is_deleted == False)
+        count = result.scalar()
+        return count
+    
+    @classmethod
+    def count_by_phone(cls, phone) -> int:
+        result = db.session.query(func.count(cls.id)).filter(cls.phone == phone, cls.is_deleted == False)
         count = result.scalar()
         return count
 

@@ -65,12 +65,17 @@ def register(json: UserRegisterSchema):
     if g.email and g.email.strip() != "":
         if manager.user_model.count_by_email(g.email) > 0:
             raise Duplicated("注册邮箱重复，请重新输入")  # type: ignore
+    if g.phone and g.phone.strip() != "":
+        if manager.user_model.count_by_phone(g.phone) > 0:
+            raise Duplicated("注册电话重复，请重新输入")  # type: ignore
     # create a user
     with db.auto_commit():
         user = manager.user_model()
         user.username = g.username
         if g.email and g.email.strip() != "":
             user.email = g.email
+        if g.phone and g.phone.strip() != "":
+            user.phone = g.phone
         db.session.add(user)
         db.session.flush()
         user.password = g.password
@@ -136,9 +141,15 @@ def update(json: UserBaseInfoSchema):
         exists = manager.user_model.get(email=g.email)
         if exists:
             raise ParameterError("邮箱已被注册，请重新输入邮箱")
+    if g.phone and user.phone != g.phone:
+        exists = manager.user_model.get(phone=g.phone)
+        if exists:
+            raise ParameterError("电话已被注册，请重新输入电话")
     with db.auto_commit():
         if g.email:
             user.email = g.email
+        if g.phone:
+            user.email = g.phone
         if g.nickname:
             user.nickname = g.nickname
         if g.avatar:

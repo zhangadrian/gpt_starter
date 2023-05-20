@@ -3,6 +3,9 @@ import os
 
 import pytest
 
+import sys
+sys.path.insert(0,'/home/lighthouse/bowen/codes/gpt_starter/')
+
 from app import create_app
 from app.api.cms.model.group import Group
 from app.api.cms.model.group_permission import GroupPermission
@@ -11,7 +14,7 @@ from app.api.cms.model.user import User
 from app.api.cms.model.user_group import UserGroup
 from app.api.cms.model.user_identity import UserIdentity
 
-from .config import password, username
+from config import password, username
 
 app = create_app(
     group_model=Group,
@@ -22,6 +25,10 @@ app = create_app(
     user_group_model=UserGroup,
 )
 
+app.config['REDIS_HOST'] = "127.0.0.1" # redis数据库地址
+app.config['REDIS_PORT'] = 6379 # redis 端口号
+app.config['REDIS_DB'] = 0 # 数据库名
+app.config['REDIS_EXPIRE'] = 600 # redis 过期时间600秒
 
 @pytest.fixture()
 def fixtureFunc():

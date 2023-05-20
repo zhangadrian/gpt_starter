@@ -6,3 +6,4 @@ COPY requirements-prod.txt .
 RUN pip install -r requirements-prod.txt >/dev/null 2>&1
 # 拷贝项目
 COPY . /app
+CMD echo $HOME
